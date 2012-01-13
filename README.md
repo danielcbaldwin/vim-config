@@ -2,7 +2,7 @@
 
 Run this line in terminal
 
-	curl http://goo.gl/tvrmT -L -o - | sh
+	curl https://raw.github.com/danielcbaldwin/vim-config/master/install.sh -L -o - | sh
 	
 ### Additional Settings
 
