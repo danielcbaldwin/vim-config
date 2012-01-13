@@ -2,4 +2,4 @@
 
 Run this line in terminal
 
-	curl http://goo.gl/xVKv3 -o - | sh
+	curl http://goo.gl/xVKv3 -L -o - | sh
