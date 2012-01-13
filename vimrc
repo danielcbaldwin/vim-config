@@ -63,3 +63,9 @@ let NERDTreeShowBookmarks=1
 
 map <leader>n :NERDTreeToggle<CR>
 nnoremap <leader>ws :set list!<CR>
+
+" Use local vimrc if available {
+    if filereadable(expand("~/.vimrc.local"))
+        source ~/.vimrc.local
+    endif
+" }
