@@ -72,7 +72,21 @@ set tabstop=4
 set nosmarttab
 set expandtab
 
+" Backups {{{
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+set backup                        " enable backups
+set noswapfile                    " It's 2012, Vim.
+
+" }}}
+" Leader {{{
+
 let mapleader = ","
+let maplocalleader = "\\"
+
+" }}}
 
 " Time out on key codes but not mappings.
 " Basically this makes terminal Vim work sanely.
