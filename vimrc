@@ -1,11 +1,24 @@
 call pathogen#infect()
 
+"load ftplugins and indent files
+filetype plugin on
+filetype indent on
+
 syntax enable
-set background=dark
-colorscheme solarized
+colorscheme wombat256
+
+"some stuff to get the mouse going in term
+set mouse=a
+set ttymouse=xterm2
+
+"tell the term has 256 colors
+set t_Co=256
 
 if has("gui_running")
 	set guioptions=egmrt
+
+    "set background=dark
+    "colorscheme solarized
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 
@@ -44,6 +57,9 @@ if has("gui_running")
 endif
 
 set number
+
+set incsearch   "find the next match as we type the search
+set hlsearch    "hilight searches by default
 
 set nobackup
 set nowritebackup
@@ -159,6 +175,7 @@ let NERDTreeIgnore = ['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let g:NERDTreeMouseMode = 2
 
 " }}}
 
