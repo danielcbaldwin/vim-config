@@ -164,9 +164,8 @@ let NERDTreeDirArrows = 1
 
 " Powerline {{{
 
-let g:Powerline_symbols = 'fancy'
+"let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_enabled = 1
-" let g:Powerline_colorscheme = 'badwolf'
 
 " }}}
 
