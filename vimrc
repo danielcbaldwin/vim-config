@@ -1,69 +1,20 @@
 call pathogen#infect()
 
-"load ftplugins and indent files
-filetype plugin on
-filetype indent on
-
 syntax enable
 colorscheme wombat256
 
-"some stuff to get the mouse going in term
-set mouse=a
-set ttymouse=xterm2
-
-"tell the term has 256 colors
-set t_Co=256
-
 if has("gui_running")
 	set guioptions=egmrt
-
-    "set background=dark
-    "colorscheme solarized
-
-    highlight SpellBad term=underline gui=undercurl guisp=Orange
-
-    " Different cursors for different modes.
-    "set guicursor=n-c:block-Cursor-blinkon0
-    "set guicursor+=v:block-vCursor-blinkon0
-    "set guicursor+=i-ci:ver20-iCursor
-
-    if has("gui_macvim")
-        " Full screen means FULL screen
-        set fuoptions=maxvert,maxhorz
-
-        " Use the normal HIG movements, except for M-Up/Down
-        let macvim_skip_cmd_opt_movement = 1
-        no   <D-Left>       <Home>
-        no!  <D-Left>       <Home>
-        no   <M-Left>       <C-Left>
-        no!  <M-Left>       <C-Left>
-
-        no   <D-Right>      <End>
-        no!  <D-Right>      <End>
-        no   <M-Right>      <C-Right>
-        no!  <M-Right>      <C-Right>
-
-        no   <D-Up>         <C-Home>
-        ino  <D-Up>         <C-Home>
-        imap <M-Up>         <C-o>{
-
-        no   <D-Down>       <C-End>
-        ino  <D-Down>       <C-End>
-        imap <M-Down>       <C-o>}
-
-        imap <M-BS>         <C-w>
-        inoremap <D-BS>     <esc>my0c`y
-    endif
 endif
 
 set number
+set backspace=2             " fixing backspace because vim is dumb
 
 set incsearch   "find the next match as we type the search
 set hlsearch    "hilight searches by default
+set ignorecase             " ignore case when searching
 
-set nobackup
-set nowritebackup
-set noswapfile
+set autoread                " Update open files when changed externally
 
 set encoding=utf-8
 set autoindent
@@ -72,35 +23,37 @@ set showmode
 set noshowcmd
 set wrap
 
-set nolazyredraw
-set ruler
-set backspace=2
-set report=0
-
 set showmatch              " brackets/braces that is
-set mat=5                  " duration to show matching brace (1/10 sec)
-set incsearch              " do incremental searching
-set laststatus=2           " always show the status line
-set ignorecase             " ignore case when searching
+set mat=3                  " duration to show matching brace (1/10 sec)
 
 set shiftwidth=2
-set tabstop=4
+set tabstop=2
 set nosmarttab
 set expandtab
+
+" Reselect visual block after indent/outdent
+" http://www.vimbits.com/bits/20
+vnoremap < <gv
+vnoremap > >gv
+
+" Clear search highlights
+" http://www.vimbits.com/bits/21
+nnoremap <silent><Leader>/ :nohls<CR>
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
 " Backups {{{
 
 set undodir=~/.vim/tmp/undo//     " undo files
 set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap//   " swap files
-set backup                        " enable backups
+set nobackup                        " enable backups
+set nowritebackup
 set noswapfile                    " It's 2012, Vim.
 
 " }}}
 " Leader {{{
 
 let mapleader = ","
-let maplocalleader = "\\"
 
 " }}}
 
@@ -116,20 +69,17 @@ set backupskip=/tmp/*,/private/tmp/*"
 " Better Completion
 set completeopt=longest,menuone,preview
 
-" Save when losing focus
-au FocusLost * :silent! wall
-
 " Line Return {{{
 
 " Make sure Vim returns to the same line when you reopen a file.
 " Thanks, Amit
-augroup line_return
-    au!
-    au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
-augroup END
+" augroup line_return
+"    au!
+"    au BufReadPost *
+"        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"        \     execute 'normal! g`"zvzz' |
+"        \ endif
+" augroup END
 
 " }}}
 
@@ -141,18 +91,6 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
-
-" Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
-
-" Easier to type, and I never use the default behavior.
-noremap H ^
-noremap L $
-vnoremap L g_
-
-" Toggle 'keep current line in the center of the screen' mode
-nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 
 " NERD Tree {{{
 
@@ -196,12 +134,29 @@ endfunc
 map <C-n> :call NumberToggle()<CR>
 map <leader>r :call NumberToggle()<CR>
 
-map <C-l> :bn<CR>
+"map <C-l> :bn<CR>
 map <C-Right> :bn<CR>
-map <C-h> :bp<CR>
+"map <C-h> :bp<CR>
 map <C-Left> :bp<CR>
 
 map <leader>d <leader>bd<CR>
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
+" Disable paste mode when leaving Insert Mode
+" http://www.vimbits.com/bits/170
+au InsertLeave * set nopaste
+
+nmap yr :YRShow<CR>
+
+" Move a line of text using (on Mac)
+" http://vimbits.com/bits/283
+nmap <D-j> mz:m+<cr>`z
+nmap <D-k> mz:m-2<cr>`z
+vmap <D-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <D-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+" Insert blank lines without going into insert mode
+" http://www.vimbits.com/bits/176
+nmap t o<ESC>k
+nmap T O<ESC>j
