@@ -5,6 +5,12 @@ colorscheme wombat256
 
 if has("gui_running")
 	set guioptions=egmrt
+  " Move a line of text using (on Mac)
+  " http://vimbits.com/bits/283
+  nmap <D-j> mz:m+<cr>`z
+  nmap <D-k> mz:m-2<cr>`z
+  vmap <D-j> :m'>+<cr>`<my`>mzgv`yo`z
+  vmap <D-k> :m'<-2<cr>`>my`<mzgv`yo`z
 endif
 
 set number
@@ -38,8 +44,9 @@ vnoremap > >gv
 
 " Clear search highlights
 " http://www.vimbits.com/bits/21
-nnoremap <silent><Leader>/ :nohls<CR>
-nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+" nnoremap <silent><Leader>/ :nohls<CR>
+nnoremap <silent><Leader>h :nohls<CR>
+" nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
 " Backups {{{
 
@@ -134,27 +141,18 @@ endfunc
 map <C-n> :call NumberToggle()<CR>
 map <leader>r :call NumberToggle()<CR>
 
-"map <C-l> :bn<CR>
-map <C-Right> :bn<CR>
-"map <C-h> :bp<CR>
-map <C-Left> :bp<CR>
+nnoremap <silent><C-l> :bn<CR>
+"nnoremap <silent><C-Right> :bn<CR>
+nnoremap <silent><C-h> :bp<CR>
+"nnoremap <silent><C-Left> :bp<CR>
 
-map <leader>d <leader>bd<CR>
+map <silent><leader>d <leader>bd<CR>
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 " Disable paste mode when leaving Insert Mode
 " http://www.vimbits.com/bits/170
 au InsertLeave * set nopaste
-
-nmap yr :YRShow<CR>
-
-" Move a line of text using (on Mac)
-" http://vimbits.com/bits/283
-nmap <D-j> mz:m+<cr>`z
-nmap <D-k> mz:m-2<cr>`z
-vmap <D-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <D-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Insert blank lines without going into insert mode
 " http://www.vimbits.com/bits/176
